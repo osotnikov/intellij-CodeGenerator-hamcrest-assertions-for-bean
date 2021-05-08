@@ -1,0 +1,20 @@
+## THIS IS SUPPOSED TO BE USED WITH THE CodeGenerator Intellij PLUGIN
+## set "Target class name" to $class0.name
+## make sure to tick "Enabled"
+#set($actualObjectName = $StringUtil.wordsToBeginFromUpperCase($class0.name))
+#set($actualObjectName = "actual${actualObjectName}")
+private void assertAllFields($class0.name $actualObjectName) {##
+assertAll("Properties of ${actualObjectName} should have the expected values",
+#set($delimiter = ",")
+#foreach($field in $fields)
+    #if($fields.size() - $velocityCount == 0)
+        #set($delimiter = "")
+    #end
+    ## StringUtil is https://github.com/JetBrains/intellij-community/blob/master/platform/util/src/com/intellij/openapi/util/text/StringUtil.java
+    #set($upperFieldName = $StringUtil.capitalizeWithJavaBeanConvention($StringUtil.sanitizeJavaIdentifier($helper.getPropertyName($field.element, $project))))##
+    #set($lowerFieldName = $StringUtil.wordsToBeginFromLowerCase($upperFieldName))
+    #set($assertion = "assertThat(${actualObjectName}.get${upperFieldName}() , is(equalTo(""${lowerFieldName}"")))${delimiter}")##
+() -> ${assertion}
+#end
+);
+}##

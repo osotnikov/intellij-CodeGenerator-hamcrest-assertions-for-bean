@@ -1,0 +1,7 @@
+## THIS IS SUPPOSED TO BE USED WITH THE CodeGenerator Intellij PLUGIN
+## This is the file you paste to the Member tab
+## make sure to tick "Enabled"
+#set($availableMembers = [])
+#foreach($field in $class0.fields)
+    $availableMembers.add($field)
+#end
